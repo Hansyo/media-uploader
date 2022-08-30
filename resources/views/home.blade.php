@@ -6,7 +6,7 @@
             <h1>HOME</h1>
         </div>
         @guest
-            {{-- @include('auth.login-form') --}}
+            @include('auth.login-form')
             {{-- <x-auth.login-form/> --}}
         @endguest
         @auth
