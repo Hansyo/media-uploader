@@ -22,6 +22,9 @@
                             <a class="btn btn-outline-secondary">
                                 動画を投稿(Place Holder)
                             </a>
+                            <a class="btn btn-outline-secondary" href="{{ route('user.edit') }}">
+                                ユーザー情報の編集
+                            </a>
                             <a class="btn btn-outline-secondary" href="{{ route('logout') }}">
                                 ログアウト
                             </a>

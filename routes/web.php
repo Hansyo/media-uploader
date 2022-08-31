@@ -5,6 +5,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +38,10 @@ Route::group(['prefix' => 'auth'], function () {
 // 自身(の情報)に関する項目
 Route::group(['prefix' => 'user'], function () {
     Route::get('/{user:name}', [UserController::class, 'show'])->name('user.show');
+});
+
+Route::group(['prefix' => 'settings', 'middleware' => ['auth']], function () {
+    Route::get('/', [SettingsController::class, 'edit'])->name('user.edit');
+    Route::patch('/', [SettingsController::class, 'update'])->name('user.update');
+    Route::delete('/', [SettingsController::class, 'destroy'])->name('user.destroy');
 });
