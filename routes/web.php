@@ -1,9 +1,11 @@
 <?php
 
 /* Controllers */
+
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +31,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+
+// 自身(の情報)に関する項目
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/{user:name}', [UserController::class, 'show'])->name('user.show');
 });
