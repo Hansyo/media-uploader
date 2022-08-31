@@ -1,4 +1,4 @@
-@extends('auth')
+@extends('base')
 
 @section('content')
 @include('user.info-card')

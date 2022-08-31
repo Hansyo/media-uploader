@@ -1,8 +1,8 @@
 {{-- <x-user.edit-form> --}}
-<div id="edit-user-info" class="container">
+<div id="edit-user-info">
     {{-- 成功時のメッセージ --}}
     @if (session('flash_message'))
-        <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+        <div class="p-4 mb-4 text-md text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
             role="alert">
             {{ session('flash_message') }}
         </div>
@@ -13,7 +13,7 @@
             {{ session('error_message') }}
         </div>
     @endif
-    <div class="col-xs-8">
+    <div class="col-md-8 offset-md-2">
         <div class="card">
             <h3 class="card-header">
                 {{ __('Edit Info') }}
@@ -27,7 +27,7 @@
                         <div class="form-group row">
                             <label for="name" class="col col-form-label text-md-right">{{ __('Username') }}</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input id="name" type="text"
                                     class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
                                     value="{{ old('name', $user) }}" required autofocus>
@@ -44,7 +44,7 @@
                             <label for="email"
                                 class="col col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input id="email" type="email"
                                     class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
                                     value="{{ old('email', $user) }}" required>
@@ -61,7 +61,7 @@
                             <label for="self_info"
                                 class="col col-form-label text-md-right">{{ __('User Information') }}</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <textarea id="self_info" class="form-control{{ $errors->has('self_info') ? ' is-invalid' : '' }}" name="self_info">{{ old('self_info', $user) }}</textarea>
                             </div>
                         </div>

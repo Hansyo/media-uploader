@@ -1,5 +1,7 @@
-@extends('auth')
+@extends('base')
 
 @section('content')
-@include('auth.login-form')
+    <div class="container-fluid d-grid gap-2">
+        @include('auth.login-form')
+    </div>
 @endsection

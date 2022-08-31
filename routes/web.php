@@ -34,7 +34,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-
 // 自身(の情報)に関する項目
 Route::group(['prefix' => 'user'], function () {
     Route::get('/{user:name}', [UserController::class, 'show'])->name('user.show');
