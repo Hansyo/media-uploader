@@ -12,13 +12,13 @@
                     <label for="email" class="col col-form-label text-sm-right">{{ __('User name') }}</label>
 
                     <div class="col-xs-8">
-                        <input id="email" type="email"
+                        <input id="email" type="text"
                             class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="email"
                             value="{{ old('name') }}" required autofocus>
 
                         @if ($errors->has('email'))
                             <span class="invalid-feedback">
-                                <strong>{{ $errors->first('name') }}</strong>
+                                <strong>{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
                     </div>
