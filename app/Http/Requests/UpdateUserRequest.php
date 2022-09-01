@@ -35,7 +35,7 @@ class UpdateUserRequest extends FormRequest
                     $fail('The name is already in use.');
                 }
             }],
-            'email' => ['required', 'string', 'email', 'max:255', function ($name, $item, $fail) {
+            'email' => ['required', 'string', 'email:strict,dns,spoof', 'max:255', function ($name, $item, $fail) {
                 // もし既に使用されているemailなら弾く(自身以外)
                 if (count(User::where([
                         ['email', $item],

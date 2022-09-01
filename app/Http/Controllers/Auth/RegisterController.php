@@ -51,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email:strict,dns,spoof', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'], # confirmed: passwordの確認(2回入力するやつ)
         ]);
     }
