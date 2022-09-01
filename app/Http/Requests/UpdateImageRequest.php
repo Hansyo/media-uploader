@@ -13,7 +13,8 @@ class UpdateImageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // \routes\web でmiddlewareとして実施済み
+        return true;
     }
 
     /**
@@ -27,7 +28,7 @@ class UpdateImageRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string', 'nullable'],
             'file' => ['prohibited'], // 更新時には存在してはならない。
-            'iamge_url' => ['prohibited'], // 更新時には存在してはならない。
+            'image_url' => ['prohibited'], // 更新時には存在してはならない。
         ];
     }
 }

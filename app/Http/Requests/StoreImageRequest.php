@@ -28,7 +28,7 @@ class StoreImageRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string', 'nullable'],
             'file' => ['file', 'required_without:image_url'],
-            'iamge_url' => ['active_url', 'required_without:file'],
+            'image_url' => ['active_url', 'required_without:file'],
         ];
     }
 }
