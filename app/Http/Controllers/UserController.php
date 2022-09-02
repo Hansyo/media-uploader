@@ -46,7 +46,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('user.info', compact('user'));
+        $images = $user->images();
+        return view('user.info', compact('user', 'images'));
     }
 
     /**
