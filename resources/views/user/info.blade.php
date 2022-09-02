@@ -1,5 +1,5 @@
-@extends('base')
+@extends('home')
 
-@section('content')
+@section('main-contents')
 @include('user.info-card')
 @endsection

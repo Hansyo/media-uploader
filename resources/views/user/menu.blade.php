@@ -1,15 +1,15 @@
-<div id="user-menu" class="col-md-4">
+<div id="user-menu">
     <div class="card">
         <h3 class="card-header">
             {{ Auth::user()->name }}
         </h3>
         <div class="card-body">
             <div class="d-grid gap-2">
-                <a class="btn btn-outline-secondary">
-                    画像をアップロード{{-- (Place Holder) --}}
+                <a class="btn btn-outline-secondary" href="{{ route('image.upload') }}">
+                    画像をアップロード
                 </a>
-                <a class="btn btn-outline-secondary">
-                    画像を投稿{{-- (Place Holder) --}}
+                <a class="btn btn-outline-secondary" href="{{ route('image.create') }}">
+                    画像を投稿
                 </a>
                 <a class="btn btn-outline-secondary">
                     動画を投稿{{-- (Place Holder) --}}

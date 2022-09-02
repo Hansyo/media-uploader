@@ -5,6 +5,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -43,4 +44,21 @@ Route::group(['prefix' => 'settings', 'middleware' => ['auth']], function () {
     Route::get('/', [SettingsController::class, 'edit'])->name('user.edit');
     Route::patch('/', [SettingsController::class, 'update'])->name('user.update');
     Route::delete('/', [SettingsController::class, 'destroy'])->name('user.destroy');
+});
+
+Route::group(['prefix' => 'image', 'as' => 'image.'], function () {
+    Route::group(['middleware' => 'auth'], function () {
+        // 認証が必要な機能
+        Route::get('/upload', [ImageController::class, 'upload'])->name('upload');
+        Route::get('/create', [ImageController::class, 'create'])->name('create');
+        Route::post('/', [ImageController::class, 'store'])->name('store');
+        Route::group(['middleware' => 'can:editable,image'], function () {
+            Route::get('/{image:id}/edit', [ImageController::class, 'edit'])->name('edit');
+            Route::patch('/{image:id}', [ImageController::class, 'update'])->name('update');
+            Route::delete('/{image:id}', [ImageController::class, 'destroy'])->name('destroy');
+        });
+    });
+    // 認証が不要 (順番の関係で、後ろに持ってきたほうが良い)
+    Route::get('/{image:id}', [ImageController::class, 'show'])->name('show');
+    Route::get('/', [ImageController::class, 'show'])->name('index');
 });
