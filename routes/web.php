@@ -1,5 +1,12 @@
 <?php
 
+/* Controllers */
+
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,8 +18,29 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::redirect('/home', '/');
+
+Route::group(['prefix' => 'auth'], function () {
+
+    Route::get('/register', [RegisterController::class, 'showRegisterForm']);
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+    Route::get('/login', [LoginController::class, 'showLoginForm']);
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+// 自身(の情報)に関する項目
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/{user:name}', [UserController::class, 'show'])->name('user.show');
+});
+
+Route::group(['prefix' => 'settings', 'middleware' => ['auth']], function () {
+    Route::get('/', [SettingsController::class, 'edit'])->name('user.edit');
+    Route::patch('/', [SettingsController::class, 'update'])->name('user.update');
+    Route::delete('/', [SettingsController::class, 'destroy'])->name('user.destroy');
 });
