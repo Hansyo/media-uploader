@@ -42,4 +42,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * ユーザーが所持している画像を取得
+     */
+    public function images() {
+        return $this->hasMany(Image::class);
+    }
 }

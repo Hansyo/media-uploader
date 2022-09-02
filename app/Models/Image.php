@@ -15,4 +15,11 @@ class Image extends Model
         'title',
         'description',
     ];
+
+    /**
+     * 画像を所持しているユーザを取得
+     */
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
