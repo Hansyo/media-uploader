@@ -6,6 +6,7 @@ use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Models\Image;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\FileHelpers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -107,7 +108,19 @@ class ImageController extends Controller
      */
     public function update(UpdateImageRequest $request, Image $image)
     {
-        //
+        // TODO: 画像を更新できる仕組みを作る
+        // データを更新
+        $image->title = $request->title;
+        $image->description = $request->description;
+
+        // 保存処理
+        try {
+            $image->save();
+            Session::flash('flash_message', 'Successful update.');
+        } catch (Exception $e) {
+            Session::flash('error_message', 'Server error.');
+        }
+        return redirect()->route('image.show', $image);
     }
 
     /**
@@ -118,6 +131,12 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        try {
+            Storage::disk('public')->delete($image->file_path);
+            $image->delete();
+        } catch (Exception $e) {
+            Session::flash('error_message', 'Server error.');
+        }
+        return redirect()->route('home');
     }
 }
