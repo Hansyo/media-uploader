@@ -38,7 +38,7 @@ class ImageController extends Controller
         return view('image.create');
     }
 
-        /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
