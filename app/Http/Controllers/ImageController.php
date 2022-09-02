@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Models\Image;
+use App\Models\User;
+use Illuminate\Http\FileHelpers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
+
+    use FileHelpers; // ファイルをダウンロードする際に使うHashを持ってくる。
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +56,24 @@ class ImageController extends Controller
      */
     public function store(StoreImageRequest $request)
     {
-        //
+        $user = User::find(Auth::id());
+        if ($request->has("file")){
+            $filePath = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
+        } else {
+            // めちゃめちゃ気持ち悪い。もっと良い実装がありそう...
+            $imageFile = file_get_contents($request->image_url);
+            preg_match('/\.[^.]+$/', basename($request->image_url), $extension);
+            $filePath = 'public/images/' . Str::random(40) . $extension[0];
+            Storage::put($filePath, $imageFile, );
+        }
+
+        $image = new Image([
+            'title' => $request->title,
+            'description' => $request->description,
+            'file_path' => $filePath,
+        ]);
+        $user->images()->save($image);
+        return redirect()->route('image.show', $image->id);
     }
 
     /**

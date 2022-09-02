@@ -27,7 +27,11 @@ class StoreImageRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string', 'nullable'],
-            'file' => ['file', 'required_without:image_url'],
+            'file' => ['file', 'required_without:image_url', function ($name, $item, $fail) {
+                if (is_null($item)){
+                    $fail($name . ' is null file. Don\'t upload null file.');
+                }
+            }],
             'image_url' => ['active_url', 'required_without:file'],
         ];
     }

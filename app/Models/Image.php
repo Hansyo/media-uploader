@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     /**
-     * フォームを作成した際に、入力可能な項目
+     * create等で、設定可能な項目
      *
      * @var array<int, string>
      */
     protected $fillable = [
         'title',
         'description',
+        'file_path',
     ];
 
     /**
