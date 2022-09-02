@@ -1,5 +1,6 @@
 {{-- <x-login-form> --}}
-<div id="login" class="col-md-4">
+{{-- <div id="login" class="col-md-4"> --}}
+<div id="login" class="">
     <div class="card">
         <h3 class="card-header">
             Sign In
