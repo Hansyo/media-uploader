@@ -46,8 +46,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $images = $user->images();
-        return view('user.info', compact('user', 'images'));
+        // TODO: 同時に取得する方法を聞いてみる
+        $images = $user->images;
+        $videos = $user->videos;
+        $items = $images->concat($videos)->sortBy('created_at')->reverse();
+
+        return view('user.info', compact('user', 'items'));
     }
 
     /**

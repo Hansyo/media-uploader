@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Video extends Model
+{
+    /**
+     * create等で、設定可能な項目
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'youtube_id',
+    ];
+
+    /**
+     * Get youtube video id from url.
+     *
+     * @param  string $url
+     * @return string
+     */
+    public static function get_youtube_id(string $url)
+    {
+        preg_match('/[\/=]([^\/=]+)$/', $url, $id);
+        return $id[1];
+    }
+
+    /************
+     * Relation *
+     ************/
+    /**
+     * 画像を所持しているユーザを取得
+     */
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+}

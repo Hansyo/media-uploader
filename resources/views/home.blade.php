@@ -18,7 +18,7 @@
                 @hasSection('main-contents')
                     @yield('main-contents')
                 @else
-                    @include('image.list-card')
+                    @include('user.upload-list')
                 @endif
             </div>
         </div>
