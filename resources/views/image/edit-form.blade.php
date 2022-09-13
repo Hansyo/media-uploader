@@ -37,6 +37,36 @@
                     </div>
                 </div>
 
+                <div class="form-group-row">
+                    <label for="Upload File" class="col col-form-label text-md-right">{{ __('Upload File') }}</label>
+                    <div class="com-md-8">
+                        <input id="file" type="file"
+                            class="form-control{{ $errors->has('file') ? ' is-invalid' : '' }}" name="file"
+                            accept="image/*" value="{{ old('file') }}">
+
+                        @if ($errors->has('file'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('file') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group-row">
+                    <label for="image_url" class="col col-form-label text-md-right">{{ __('Image Link') }}</label>
+                    <div class="com-md-8">
+                        <input id="image_url" type="url"
+                            class="form-control{{ $errors->has('image_url') ? ' is-invalid' : '' }}" name="image_url"
+                            accept="image/*" value="{{ old('image_url') }}">
+
+                        @if ($errors->has('image_url'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('image_url') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group row">
                     <div class="col text-center">
                         <button type="submit" class="btn btn-primary">
