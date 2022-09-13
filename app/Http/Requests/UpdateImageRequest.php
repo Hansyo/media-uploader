@@ -27,8 +27,12 @@ class UpdateImageRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['string', 'nullable'],
-            'file' => ['prohibited'], // 更新時には存在してはならない。
-            'image_url' => ['prohibited'], // 更新時には存在してはならない。
+            'file' => ['file', function ($name, $item, $fail) {
+                if (is_null($item)){
+                    $fail($name . ' is null file. Don\'t upload null file.');
+                }
+            }],
+            'image_url' => ['active_url', 'nullable'],
         ];
     }
 }

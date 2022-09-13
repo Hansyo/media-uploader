@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\FileHelpers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -61,11 +62,10 @@ class ImageController extends Controller
         if ($request->has("file")){
             $filePath = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
         } else {
-            // めちゃめちゃ気持ち悪い。もっと良い実装がありそう...
-            $imageFile = file_get_contents($request->image_url);
+            $imageFile = Http::get($request->image_url);
             preg_match('/\.[^.]+$/', basename($request->image_url), $extension);
-            $filePath = 'public/images/' . Str::random(40) . $extension[0];
-            Storage::put($filePath, $imageFile, );
+            $filePath = 'images/' . Str::random(40) . $extension[0];
+            Storage::disk('public')->put($filePath, $imageFile, );
         }
 
         $image = new Image([
@@ -113,6 +113,21 @@ class ImageController extends Controller
         $image->title = $request->title;
         $image->description = $request->description;
 
+        // 新規ファイルの保存
+        if ($request->has('file')){
+            $image->file_path = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
+        } else if ($request->has('image_url')) {
+            $imageFile = Http::get($request->image_url);
+            preg_match('/\.[^.]+$/', basename($request->image_url), $extension);
+            $image->file_path = 'images/' . Str::random(40) . $extension[0];
+            Storage::disk('public')->put($image->file_path, $imageFile);
+        }
+
+        // 不要なファイルを削除
+        if ($image->isDirty('file_path')) {
+            Storage::disk('public')->delete($image->getOriginal('file_path'));
+        }
+
         // 保存処理
         try {
             $image->save();
@@ -136,6 +151,7 @@ class ImageController extends Controller
             $image->delete();
         } catch (Exception $e) {
             Session::flash('error_message', 'Server error.');
+            return redirect()->route('image.show', $image);
         }
         return redirect()->route('home');
     }
