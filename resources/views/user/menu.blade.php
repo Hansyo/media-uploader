@@ -11,8 +11,8 @@
                 <a class="btn btn-outline-secondary" href="{{ route('image.create') }}">
                     画像を投稿
                 </a>
-                <a class="btn btn-outline-secondary">
-                    動画を投稿{{-- (Place Holder) --}}
+                <a class="btn btn-outline-secondary" href="{{ route('video.create') }}">
+                    動画を投稿
                 </a>
                 <a class="btn btn-outline-secondary" href="{{ route('user.edit') }}">
                     ユーザー情報の編集

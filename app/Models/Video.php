@@ -7,7 +7,7 @@ use App\Events\ContentUpdated;
 use App\Events\ContentDeleting;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Video extends Model
 {
     /**
      * create等で、設定可能な項目
@@ -17,7 +17,7 @@ class Image extends Model
     protected $fillable = [
         'title',
         'description',
-        'file_path',
+        'youtube_id',
     ];
 
     protected $dispatchesEvents = [
@@ -26,6 +26,21 @@ class Image extends Model
         'deleting' => ContentDeleting::class,
     ];
 
+    /**
+     * Get youtube video id from url.
+     *
+     * @param  string $url
+     * @return string
+     */
+    public static function get_youtube_id(string $url)
+    {
+        preg_match('/[\/=]([^\/=]+)$/', $url, $id);
+        return $id[1];
+    }
+
+    /************
+     * Relation *
+     ************/
     /**
      * 画像を所持しているユーザを取得
      */

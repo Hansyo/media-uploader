@@ -23,7 +23,7 @@
         </div>
     </div>
     <div>
-        @include('image.list-card', ['images' => $images->get()])
+        @include('user.upload-list')
     </div>
 </div>
 {{-- </x-user.show> --}}

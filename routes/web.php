@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,4 +62,20 @@ Route::group(['prefix' => 'image', 'as' => 'image.'], function () {
     // 認証が不要 (順番の関係で、後ろに持ってきたほうが良い)
     Route::get('/{image:id}', [ImageController::class, 'show'])->name('show');
     Route::get('/', [ImageController::class, 'show'])->name('index');
+});
+
+Route::group(['prefix' => 'video', 'as' => 'video.'], function () {
+    Route::group(['middleware' => 'auth'], function () {
+        // 認証が必要な機能
+        Route::get('/create', [VideoController::class, 'create'])->name('create');
+        Route::post('/', [VideoController::class, 'store'])->name('store');
+        Route::group(['middleware' => 'can:editable,video'], function () {
+            Route::get('/{video:id}/edit', [VideoController::class, 'edit'])->name('edit');
+            Route::patch('/{video:id}', [VideoController::class, 'update'])->name('update');
+            Route::delete('/{video:id}', [VideoController::class, 'destroy'])->name('destroy');
+        });
+    });
+    // 認証が不要 (順番の関係で、後ろに持ってきたほうが良い)
+    Route::get('/{video:id}', [VideoController::class, 'show'])->name('show');
+    Route::get('/', [VideoController::class, 'index'])->name('index');
 });
