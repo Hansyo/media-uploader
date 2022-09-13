@@ -46,8 +46,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // TODO: Pagingを実装
-        $contents = $user->contents->sortBy('created_at')->reverse();
+        $contents = $user->contents()
+                         ->latest()
+                         ->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')
+                         ->withQueryString();
         return view('user.info', compact('user', 'contents'));
     }
 

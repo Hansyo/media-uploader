@@ -17,6 +17,7 @@
                 @endforeach
             </div>
         </div>
+        {{ $contents->links() }}
     </div>
 </div>
 
