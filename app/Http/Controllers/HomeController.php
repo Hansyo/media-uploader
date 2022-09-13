@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contents = Content::all()->sortBy('created_at')->reverse();
+        $contents = Content::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents');
         return view('home', compact('contents'));
     }
 }

@@ -4,7 +4,7 @@
             {{ __('User List') }}
         </h3>
         <ul class="list-group list-group-flush">
-            @foreach (\App\Models\User::all() as $user)
+            @foreach ($users as $user)
                 <li class="list-group-item list-group-item-action">
                     <a href="{{ route('user.show', $user) }}">
                         <label for="name" class="col text-md-right btn btn-link">{{ $user->name }}</label>
@@ -12,5 +12,6 @@
                 </li>
             @endforeach
         </ul>
+        {{ $users->links() }}
     </div>
 </div>
