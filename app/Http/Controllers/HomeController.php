@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
-use App\Models\Video;
-use Illuminate\Http\Request;
+use App\Models\Content;
 
 class HomeController extends Controller
 {
@@ -25,9 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $images = Image::all();
-        $videos = Video::all();
-        $items = $images->concat($videos)->sortBy('created_at')->reverse();
-        return view('home', compact('items'));
+        $contents = Content::all()->sortBy('created_at')->reverse();
+        return view('home', compact('contents'));
     }
 }
+

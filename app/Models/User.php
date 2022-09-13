@@ -56,4 +56,11 @@ class User extends Authenticatable
     public function videos() {
         return $this->hasMany(Video::class);
     }
+
+    /**
+     * ユーザーが所持しているコンテンツを取得
+     */
+    public function contents() {
+        return $this->hasMany(Content::class);
+    }
 }
