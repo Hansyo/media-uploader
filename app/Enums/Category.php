@@ -17,5 +17,15 @@ enum Category: int
             Category::Video => '動画',
         };
     }
+
+    // tag
+    public function tag(): string
+    {
+        return match ($this)
+        {
+            Category::Image => 'image',
+            Category::Video => 'video',
+        };
+    }
 }
 

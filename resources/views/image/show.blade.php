@@ -1,5 +1,6 @@
 @extends('home')
 
 @section('main-contents')
-    @include('image.show-card')
+    <x-card.show id="show-image" title="{{ $image->title }}" img="{{ Storage::url($image->file_path) }}" :content="$image"
+        :category="\App\Enums\Category::Image" />
 @endsection
