@@ -30,7 +30,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/register', [RegisterController::class, 'showRegisterForm']);
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-    Route::get('/login', [LoginController::class, 'showLoginForm']);
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
