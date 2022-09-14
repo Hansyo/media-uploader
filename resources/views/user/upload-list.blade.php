@@ -9,10 +9,11 @@
                     @switch($content->category_id)
                         @case (\App\Enums\Category::Image)
                             @include('image.list-card', ['image' => $content->content])
-                            @break
+                        @break
+
                         @case (\App\Enums\Category::Video)
                             @include('video.list-info-card', ['video' => $content->content])
-                            @break
+                        @break
                     @endswitch
                 @endforeach
             </div>
@@ -20,4 +21,3 @@
         {{ $contents->links() }}
     </div>
 </div>
-

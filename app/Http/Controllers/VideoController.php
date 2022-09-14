@@ -19,7 +19,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return redirect()->route('home');
+        $contents = Video::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
+        return view('video.index', compact('contents'));
     }
 
     /**

@@ -26,7 +26,8 @@ class ImageController extends Controller
      */
     public function index()
     {
-        return redirect()->route('home');
+        $contents = Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
+        return view('image.index', compact('contents'));
     }
 
     /**
@@ -59,7 +60,7 @@ class ImageController extends Controller
     public function store(StoreImageRequest $request)
     {
         $user = User::find(Auth::id());
-        if ($request->has("file")){
+        if ($request->hasFile("file")){
             $filePath = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
         } else {
             $imageFile = Http::get($request->image_url);
@@ -108,15 +109,14 @@ class ImageController extends Controller
      */
     public function update(UpdateImageRequest $request, Image $image)
     {
-        // TODO: 画像を更新できる仕組みを作る
         // データを更新
         $image->title = $request->title;
         $image->description = $request->description;
 
         // 新規ファイルの保存
-        if ($request->has('file')){
+        if ($request->hasFile('file')){
             $image->file_path = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
-        } else if ($request->has('image_url')) {
+        } else if ($request->filled('image_url')) {
             $imageFile = Http::get($request->image_url);
             preg_match('/\.[^.]+$/', basename($request->image_url), $extension);
             $image->file_path = 'images/' . Str::random(40) . $extension[0];

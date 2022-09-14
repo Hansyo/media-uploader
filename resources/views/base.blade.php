@@ -17,7 +17,7 @@
 
 <body>
     <div id="page">
-        @include('auth.header')
+        @include('header')
         <div class="pt-2 mb-2">
             @yield('content')
         </div>

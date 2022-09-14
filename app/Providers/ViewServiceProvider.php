@@ -29,8 +29,8 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         // クラスベースのコンポーザを使用する
-        View::composer('*', function ($view) {
-            $view->with('users', User::paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'users')->withQueryString());
+        View::composer('home', function ($view) {
+            $view->with('users', User::simplePaginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'users')->withQueryString());
         });
 
     }

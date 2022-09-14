@@ -1,5 +1,5 @@
 @extends('home')
 
 @section('main-contents')
-    @include('video.show-card')
+    @include('video.upload-list')
 @endsection

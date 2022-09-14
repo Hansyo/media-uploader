@@ -4,7 +4,8 @@
             {{ __('Update Image') }}
         </h3>
         <div class="card-body">
-            <form method="POST" action="{{ route('image.update', $image) }}" class="d-grid gap-2" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('image.update', $image) }}" class="d-grid gap-2"
+                enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
 
@@ -81,12 +82,11 @@
 
                 <div class="form-group row mb-4">
                     <label>
-                        <input id="isAcceptDelete" type="checkbox"
-                            class="form-check-input"
-                            name="isAcceptDelete" required>
-                            画像を削除しますか？
+                        <input id="isAcceptDelete" type="checkbox" class="form-check-input" name="isAcceptDelete"
+                            required>
+                        画像を削除しますか？
                     </label>
-                        <div class="col text-center">
+                    <div class="col text-center">
                         <button type="submit" class="btn btn-danger">
                             {{ __('Delete Image') }}
                         </button>
