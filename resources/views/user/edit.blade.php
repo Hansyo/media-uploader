@@ -1,7 +1,5 @@
-@extends('base')
+@extends('home')
 
-@section('content')
-<div class="container-fluid d-grid gap-2">
+@section('main-contents')
     @include('user.edit-form')
-</div>
 @endsection

@@ -8,4 +8,3 @@
         <img class="card-img-top" src="https://img.youtube.com/vi/{{ $video->youtube_id }}/hqdefault.jpg">
     </div>
 </div>
-

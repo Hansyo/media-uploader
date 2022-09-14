@@ -44,7 +44,7 @@
                         <input id="url" type="url"
                             class="form-control{{ $errors->has('url') ? ' is-invalid' : '' }}" name="url"
                             accept="video/*"
-                            value="{{ old('url', 'https://www.youtube.com/watch?v='.$video->youtube_id) }}" required>
+                            value="{{ old('url', 'https://www.youtube.com/watch?v=' . $video->youtube_id) }}" required>
 
                         @if ($errors->has('url'))
                             <span class="invalid-feedback">

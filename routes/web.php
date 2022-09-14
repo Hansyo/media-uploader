@@ -61,7 +61,7 @@ Route::group(['prefix' => 'image', 'as' => 'image.'], function () {
     });
     // 認証が不要 (順番の関係で、後ろに持ってきたほうが良い)
     Route::get('/{image:id}', [ImageController::class, 'show'])->name('show');
-    Route::get('/', [ImageController::class, 'show'])->name('index');
+    Route::get('/', [ImageController::class, 'index'])->name('index');
 });
 
 Route::group(['prefix' => 'video', 'as' => 'video.'], function () {

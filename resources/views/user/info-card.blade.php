@@ -1,5 +1,5 @@
 {{-- <x-user.show> --}}
-<div id="user-info">
+<div id="user-info" class="d-grid gap-2">
     <div class="card">
         <h3 class="card-header">
             {{ __('User Info') }}

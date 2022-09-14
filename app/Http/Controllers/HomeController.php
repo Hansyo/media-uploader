@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contents = Content::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents');
+        $contents = Content::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
         return view('home', compact('contents'));
     }
 }

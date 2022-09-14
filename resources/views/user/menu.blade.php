@@ -1,8 +1,10 @@
 <div id="user-menu">
     <div class="card">
-        <h3 class="card-header">
-            {{ Auth::user()->name }}
-        </h3>
+        <a class="text-decoration-none link-dark" href="{{ route('user.show', Auth::user()) }}">
+            <h3 class="card-header">
+                {{ Auth::user()->name }}
+            </h3>
+        </a>
         <div class="card-body">
             <div class="d-grid gap-2">
                 <a class="btn btn-outline-secondary" href="{{ route('image.upload') }}">

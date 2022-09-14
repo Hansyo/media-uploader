@@ -38,7 +38,8 @@
                 </div>
 
                 <div class="form-group-row">
-                    <label for="url" class="col col-form-label text-md-right">{{ __('Video Link (Youtube Only)') }}</label>
+                    <label for="url"
+                        class="col col-form-label text-md-right">{{ __('Video Link (Youtube Only)') }}</label>
                     <div class="com-md-8">
                         <input id="url" type="url"
                             class="form-control{{ $errors->has('url') ? ' is-invalid' : '' }}" name="url"
