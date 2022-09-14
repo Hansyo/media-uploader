@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\User;
@@ -19,8 +20,13 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $contents = Video::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
-        return view('video.index', compact('contents'));
+        $contents = Video::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString()
+            ->through(function ($item) {
+                $item->category_id = Category::Video;
+                $item->content_id = $item->id;
+                return $item;
+            });
+        return view('home', ['contents' => $contents, 'videos' => $contents, 'headerTxt' => 'All Videos']);
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.base title="Sign Up">
+    <x-card.base :headerTxt="__('Sign Up')">
         @if (count($errors) > 0)
             <div class="alert alert-danger">
 

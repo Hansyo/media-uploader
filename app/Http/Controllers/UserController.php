@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -46,11 +48,18 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $contents = $user->contents()
-                         ->latest()
-                         ->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')
-                         ->withQueryString();
-        return view('user.info', compact('user', 'contents'));
+        $contents = $user->contents()->latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
+        if($contents->count() !== 0){
+            $from = $contents->last()->created_at;
+            $to = $contents->first()->created_at;
+            $images = Image::getBetweenCreated($from, $to);
+            $videos = Video::getBetweenCreated($from, $to);
+        } else {
+            $images = [];
+            $videos = [];
+        }
+
+        return view('user.info', compact('user', 'contents', 'images', 'videos'));
     }
 
     /**

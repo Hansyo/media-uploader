@@ -2,7 +2,7 @@
 
 @section('main-contents')
     <div class="d-grid gap-2">
-        <x-card.base title="User Info">
+        <x-card.base :headerTxt="__('User Info')">
             <div class="row">
                 <label for="name" class="col text-md-right">{{ __('Username') }}</label>
 
@@ -20,7 +20,7 @@
             </div>
         </x-card.base>
         <div>
-            <x-uploads :contents="$contents"/>
+            <x-uploads :contents="$contents" :images="$images" :videos="$videos"/>
         </div>
     </div>
 @endsection

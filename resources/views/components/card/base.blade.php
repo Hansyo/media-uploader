@@ -1,26 +1,25 @@
-<div class="card p-0">
-    @if ($attributes->has('href'))
-        <a href="{{ $attributes->get('href') }}"
-            @if ($attributes->has('href_class')) class="{{ $attributes->get('href_class') }}"
-            @else class="stretched-link" @endif>
+<div class="{{ $attributes->class(['card', 'p-0'])->get('class') }}">
+    @if (isset($href))
+        <a href="{{ $href }}" @class(isset($hrefClass) ? $hrefClass->toArray() : ['stretched-link']))>
 
-            <h3 class="card-header">{{ $attributes->get('title') }}</h3>
+            <h3 class="card-header">{{ $headerTxt }}</h3>
         </a>
     @else
-        <h3 class="card-header">{{ $attributes->get('title') }}</h3>
+        <h3 class="card-header">{{ $headerTxt }}</h3>
     @endif
 
-    @if ($attributes->has('img'))
-        <img class="card-img-top" src="{{ $attributes->get('img') }}">
+    @if (isset($img))
+        <img class="card-img-top" src="{{ $img }}">
+    @endif
+
+    @if (isset($slotOuterBody))
+        {{ $slotOuterBody }}
     @endif
 
     @if ($slot->isNotEmpty())
-        <div class="card-body container">
+        <div class="card-body container-fluid">
             {{ $slot }}
         </div>
-    @endif
-    @if (isset($slot_ul))
-        {{ $slot_ul }}
     @endif
 
 </div>

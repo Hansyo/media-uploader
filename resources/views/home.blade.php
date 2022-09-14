@@ -38,7 +38,7 @@
                         @hasSection('main-contents')
                             @yield('main-contents')
                         @else
-                            <x-uploads :contents="$contents" />
+                            <x-uploads :headerTxt="$headerTxt??__('Uploads')" :contents="$contents" :images="$images??[]" :videos="$videos??[]" />
                         @endif
                     </div>
                 </div>

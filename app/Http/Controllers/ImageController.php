@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Models\Image;
@@ -26,9 +27,14 @@ class ImageController extends Controller
      */
     public function index()
     {
-        $contents = Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
-        return view('image.index', compact('contents'));
-    }
+        $contents = Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString()
+            ->through(function ($item) {
+                $item->category_id = Category::Image;
+                $item->content_id = $item->id;
+                return $item;
+            });
+            return view('home', ['contents' => $contents, 'images' => $contents, 'headerTxt' => 'All Images']);
+        }
 
     /**
      * Show the form for creating a new resource.

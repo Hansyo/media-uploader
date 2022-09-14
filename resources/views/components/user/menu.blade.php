@@ -1,6 +1,6 @@
 <div id="user-menu">
-    <x-card.base href="{{ route('user.show', Auth::user()) }}" href_class="text-decoration-none link-dark"
-        title="{{ Auth::user()->name }}">
+    <x-card.base :href="route('user.show', Auth::user())" :href_class="collect(['text-decoration-none', 'link-dark'])"
+        :headerTxt="Auth::user()->name">
         <div class="d-grid gap-2">
             <a class="btn btn-outline-secondary" href="{{ route('image.upload') }}">
                 画像をアップロード

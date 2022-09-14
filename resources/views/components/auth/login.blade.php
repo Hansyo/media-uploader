@@ -1,5 +1,5 @@
 <div id="login-form">
-    <x-card.base title="Sign In">
+    <x-card.base :headerTxt="__('Sign In')">
         <form method="POST" action="{{ route('login') }}" class="d-grid gap-3">
             @csrf
 
