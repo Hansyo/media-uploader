@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -65,7 +64,6 @@ class RegisterController extends Controller
     protected function register(Request $request)
     {
         // validation data
-        Log::debug($request);
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));

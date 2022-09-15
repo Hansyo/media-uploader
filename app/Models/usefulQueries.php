@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 trait usefulQueries
 {
@@ -17,7 +16,6 @@ trait usefulQueries
             [$from, $to] = [$to, $from];
         }
         $items = self::whereBetween('created_at', [$from, $to])->get();
-        Log::debug($items);
         return $items;
     }
 }
