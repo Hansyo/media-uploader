@@ -28,7 +28,7 @@
                                     <x-auth.login />
                                 @endguest
                                 @auth
-                                    <x-user.menu />
+                                    <x-user.menu :user="$user"/>
                                 @endauth
                             </div>
                             <x-user.list :users="$users" />
