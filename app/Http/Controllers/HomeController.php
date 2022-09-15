@@ -30,8 +30,8 @@ class HomeController extends Controller
     {
         $page = $request->has('contents') ? $request->query('contents') : 1;
         $contents = Cache::remember(self::class.'_contents_'.$page, env("CACHE_TIME_SEC", 10), fn() => Content::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString());
-        $from = Cache::remember(self::class.'_from_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->last()->created_at);
-        $to = Cache::remember(self::class.'_to_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->first()->created_at);
+        $from =  $contents->last()->created_at;
+        $to = $contents->first()->created_at;
         $images = Cache::remember(self::class.'_images_'.$page, env("CACHE_TIME_SEC", 10), fn() => Image::getBetweenCreated($from, $to));
         $videos = Cache::remember(self::class.'_videos_'.$page, env("CACHE_TIME_SEC", 10), fn() => Video::getBetweenCreated($from, $to));
 
