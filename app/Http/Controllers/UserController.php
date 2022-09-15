@@ -51,12 +51,12 @@ class UserController extends Controller
     public function show(Request $request, User $user)
     {
         $page = $request->has('contents') ? $request->query('contents') : 1;
-        $contents = Cache::remember(self::class.'_contents_'.$page, env("CACHE_TIME_SEC", 10), fn() => $user->contents()->latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString());
+        $contents = Cache::remember(self::class.'_'.$user->name.'_contents_'.$page, env("CACHE_TIME_SEC", 10), fn() => $user->contents()->latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString());
         if($contents->count() !== 0){
-            $from = Cache::remember(self::class.'_from_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->last()->created_at);
-            $to = Cache::remember(self::class.'_to_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->first()->created_at);
-            $images = Cache::remember(self::class.'_images_'.$page, env("CACHE_TIME_SEC", 10), fn() => Image::getBetweenCreated($from, $to));
-            $videos = Cache::remember(self::class.'_videos_'.$page, env("CACHE_TIME_SEC", 10), fn() => Video::getBetweenCreated($from, $to));
+            $from = Cache::remember(self::class.'_'.$user->name.'_from_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->last()->created_at);
+            $to = Cache::remember(self::class.'_'.$user->name.'_to_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->first()->created_at);
+            $images = Cache::remember(self::class.'_'.$user->name.'_images_'.$page, env("CACHE_TIME_SEC", 10), fn() => Image::getBetweenCreated($from, $to));
+            $videos = Cache::remember(self::class.'_'.$user->name.'_videos_'.$page, env("CACHE_TIME_SEC", 10), fn() => Video::getBetweenCreated($from, $to));
         } else {
             $images = [];
             $videos = [];
