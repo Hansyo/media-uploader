@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
+
+    use usefulQueries;
+
     /**
      * create等で、設定可能な項目
      *

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Models\Image;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\FileHelpers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -22,12 +25,23 @@ class ImageController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contents = Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
-        return view('image.index', compact('contents'));
+        $page = $request->has('contents') ? $request->query('contents') : 1;
+        $contents = Cache::remember(
+            self::class . '_contents_' . $page,
+            env("CACHE_TIME_SEC", 10),
+            fn () => Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString()
+                ->through(function ($item) {
+                    $item->category_id = Category::Image;
+                    $item->content_id = $item->id;
+                    return $item;
+                })
+        );
+        return view('home', ['contents' => $contents, 'images' => $contents, 'headerTxt' => 'All Images']);
     }
 
     /**
@@ -60,13 +74,13 @@ class ImageController extends Controller
     public function store(StoreImageRequest $request)
     {
         $user = User::find(Auth::id());
-        if ($request->hasFile("file")){
+        if ($request->hasFile("file")) {
             $filePath = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
         } else {
             $imageFile = Http::get($request->image_url);
             preg_match('/\.[^.]+$/', basename($request->image_url), $extension);
             $filePath = 'images/' . Str::random(40) . $extension[0];
-            Storage::disk('public')->put($filePath, $imageFile, );
+            Storage::disk('public')->put($filePath, $imageFile,);
         }
 
         $image = new Image([
@@ -114,7 +128,7 @@ class ImageController extends Controller
         $image->description = $request->description;
 
         // 新規ファイルの保存
-        if ($request->hasFile('file')){
+        if ($request->hasFile('file')) {
             $image->file_path = $request->file('file')->store('images', 'public'); // ランダムな名前でファイルを保存
         } else if ($request->filled('image_url')) {
             $imageFile = Http::get($request->image_url);

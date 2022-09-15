@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.base title="Video Upload from URL">
+    <x-card.base :headerTxt="__('Video Upload from URL')">
         <form method="POST" action="{{ route('video.store') }}" class="d-grid gap-2" enctype="multipart/form-data">
             @method('POST')
             @csrf

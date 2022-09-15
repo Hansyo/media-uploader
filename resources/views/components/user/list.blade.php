@@ -1,6 +1,6 @@
 <div id="user-list">
-    <x-card.base title="User List">
-        <x-slot:slot_ul>
+    <x-card.base :headerTxt="__('User List')">
+        <x-slot:slot-outer-body>
             <ul class="list-group list-group-flush">
                 @foreach ($users as $user)
                     <li class="list-group-item list-group-item-action">

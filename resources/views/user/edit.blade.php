@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.base title="Edit Info">
+    <x-card.base :headerTxt="__('Edit Info')">
         {{-- 成功時のメッセージ --}}
         @if (session('flash_message'))
             <div class="p-4 mb-4 text-md text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"

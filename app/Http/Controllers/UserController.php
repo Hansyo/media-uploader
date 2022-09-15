@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -41,16 +44,25 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
-        $contents = $user->contents()
-                         ->latest()
-                         ->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')
-                         ->withQueryString();
-        return view('user.info', compact('user', 'contents'));
+        $page = $request->has('contents') ? $request->query('contents') : 1;
+        $contents = Cache::remember(self::class.'_contents_'.$page, env("CACHE_TIME_SEC", 10), fn() => $user->contents()->latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString());
+        if($contents->count() !== 0){
+            $from = Cache::remember(self::class.'_from_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->last()->created_at);
+            $to = Cache::remember(self::class.'_to_'.$page, env("CACHE_TIME_SEC", 10), fn() => $contents->first()->created_at);
+            $images = Cache::remember(self::class.'_images_'.$page, env("CACHE_TIME_SEC", 10), fn() => Image::getBetweenCreated($from, $to));
+            $videos = Cache::remember(self::class.'_videos_'.$page, env("CACHE_TIME_SEC", 10), fn() => Video::getBetweenCreated($from, $to));
+        } else {
+            $images = [];
+            $videos = [];
+        }
+
+        return view('user.info', compact('user', 'contents', 'images', 'videos'));
     }
 
     /**

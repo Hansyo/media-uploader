@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.base title="Image Upload from URL">
+    <x-card.base :headerTxt="__('Image Upload from URL')">
         <form method="POST" action="{{ route('image.store') }}" class="d-grid gap-2" enctype="multipart/form-data">
             @method('POST')
             @csrf

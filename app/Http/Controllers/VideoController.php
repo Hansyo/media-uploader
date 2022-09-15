@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Category;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\User;
 use App\Models\Video;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
 class VideoController extends Controller
@@ -15,12 +18,23 @@ class VideoController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contents = Video::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString();
-        return view('video.index', compact('contents'));
+        $page = $request->has('contents') ? $request->query('contents') : 1;
+        $contents = Cache::remember(
+            self::class . '_contents_' . $page,
+            env("CACHE_TIME_SEC", 10),
+            fn () => Video::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString()
+                ->through(function ($item) {
+                    $item->category_id = Category::Video;
+                    $item->content_id = $item->id;
+                    return $item;
+                })
+        );
+        return view('home', ['contents' => $contents, 'videos' => $contents, 'headerTxt' => 'All Videos']);
     }
 
     /**

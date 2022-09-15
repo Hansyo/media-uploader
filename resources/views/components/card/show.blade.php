@@ -1,5 +1,11 @@
 <div id="{{ $id }}">
     <x-card.base :attributes="$attributes">
+        @if (isset($slotOuterBody))
+            <x-slot:slot-outer-body>
+                {{ $slotOuterBody }}
+            </x-slot>
+        @endif
+
         <div class="d-grid gap-2">
             <div id="uploader" class="col-12">
                 <h4><label for="uploader">{{ __('Uploader:') }}</label></h4>
@@ -15,7 +21,7 @@
 
             <div id="description" class="col-12">
                 <h4><label for="description">{{ __('Description:') }}</label></h4>
-                <p id="description">{{ $content->description }}</p>
+                <pre id="description">{{ $content->description }}</pre>
             </div>
         </div>
 
