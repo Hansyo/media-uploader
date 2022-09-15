@@ -61,10 +61,10 @@ class SettingsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Illuminate\Hrrp\Request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $reqeust)
+    public function destroy(Request $request)
     {
         try {
             $user = User::find(Auth::id());
