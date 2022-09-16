@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Log;
+
 class ImageController extends Controller
 {
 
@@ -35,11 +37,11 @@ class ImageController extends Controller
             self::class . '_contents_' . $page,
             env("CACHE_TIME_SEC", 10),
             fn () => Image::latest()->paginate(env('PAGE_MAX_LIMIT', 20), ['*'], 'contents')->withQueryString()
-                ->through(function ($item) {
-                    $item->category_id = Category::Image;
-                    $item->content_id = $item->id;
-                    return $item;
-                })
+                                                                                            ->through(function ($item) {
+                                                                                                $item->category_id = Category::Image;
+                                                                                                $item->content_id = $item->id;
+                                                                                                return $item;
+                                                                                            })
         );
         return view('home', ['contents' => $contents, 'images' => $contents, 'headerTxt' => 'All Images']);
     }
@@ -100,7 +102,14 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        return view('image.show', compact('image'));
+        Log::debug(self::class . '_contents_' . $image->id);
+        $comments = Cache::remember(
+            self::class . '_comments_' . $image->id,
+            env("CACHE_TIME_SEC", 10),
+            // キャッシュ内に、各コメントのユーザー情報を含めるおまじない
+            fn () => $image->comments->each(fn ($item) => $item->user = $item->user)
+        );
+        return view('image.show', compact('image', 'comments'));
     }
 
     /**

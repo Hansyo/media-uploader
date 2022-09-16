@@ -37,5 +37,14 @@ enum Category: int
         };
 
     }
+
+    public function cache_name(): string
+    {
+        return match ($this)
+        {
+            Category::Image => \App\Http\Controllers\ImageController::class,
+            Category::Video => \App\Http\Controllers\VideoController::class,
+        };
+    }
 }
 

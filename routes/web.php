@@ -2,9 +2,10 @@
 
 /* Controllers */
 
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
@@ -77,4 +78,8 @@ Route::group(['prefix' => 'video', 'as' => 'video.'], function () {
     // 認証が不要 (順番の関係で、後ろに持ってきたほうが良い)
     Route::get('/{video:id}', [VideoController::class, 'show'])->name('show');
     Route::get('/', [VideoController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => 'comment', 'as' => 'comment.', 'middleware' => 'auth'], function () {
+    Route::post('/', [CommentController::class, 'store'])->name('store');
 });

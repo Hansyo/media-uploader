@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.edit id="video-edit" :headerTxt="__('Update Video" :content="$video" :category="\App\Enums\Category::Video')">
+    <x-card.edit id="video-edit" :headerTxt="__('Update Video')" :content="$video" :category="\App\Enums\Category::Video">
         <form method="POST" action="{{ route('video.update', $video) }}" class="d-grid gap-2" enctype="multipart/form-data">
             @method('PATCH')
             @csrf

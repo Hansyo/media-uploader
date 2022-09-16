@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('main-contents')
-    <x-card.edit id="image-edit" :headerTxt="__('Update Image" :content="$image" :category="\App\Enums\Category::Image')">
+    <x-card.edit id="image-edit" :headerTxt="__('Update Image')" :content="$image" :category="\App\Enums\Category::Image">
         <form method="POST" action="{{ route('image.update', $image) }}" class="d-grid gap-2" enctype="multipart/form-data">
             @method('PATCH')
             @csrf
