@@ -27,5 +27,15 @@ enum Category: int
             Category::Video => 'video',
         };
     }
+
+    public static function find(int $key): ?self
+    {
+        return match ($key) {
+            0       => self::Image,
+            1       => self::Video,
+            default => null,
+        };
+
+    }
 }
 
