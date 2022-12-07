@@ -74,7 +74,13 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        return view('video.show', compact('video'));
+        $comments = Cache::remember(
+            self::class . '_comments_' . $video->id,
+            env("CACHE_TIME_SEC", 10),
+            // キャッシュ内に、各コメントのユーザー情報を含めるおまじない
+            fn () => $video->comments->each(fn ($item) => $item->user = $item->user)
+        );
+        return view('video.show', compact('video', 'comments'));
     }
 
     /**

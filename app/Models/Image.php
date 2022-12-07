@@ -39,4 +39,8 @@ class Image extends Model
     public function content() {
         return $this->hasOne(Content::class, 'content_id');
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class, 'content_id');
+    }
 }

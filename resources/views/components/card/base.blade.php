@@ -1,11 +1,13 @@
 <div class="{{ $attributes->class(['card', 'p-0'])->get('class') }}">
-    @if (isset($href))
-        <a href="{{ $href }}" @class(isset($hrefClass) ? $hrefClass->toArray() : ['stretched-link']))>
+    @if(isset($headerTxt))
+        @if (isset($href))
+            <a href="{{ $href }}" @class(isset($hrefClass) ? $hrefClass->toArray() : ['stretched-link']))>
 
+                <h3 class="card-header">{{ $headerTxt }}</h3>
+            </a>
+        @else
             <h3 class="card-header">{{ $headerTxt }}</h3>
-        </a>
-    @else
-        <h3 class="card-header">{{ $headerTxt }}</h3>
+        @endif
     @endif
 
     @if (isset($img))

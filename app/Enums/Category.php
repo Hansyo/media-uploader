@@ -27,5 +27,24 @@ enum Category: int
             Category::Video => 'video',
         };
     }
+
+    public static function find(int $key): ?self
+    {
+        return match ($key) {
+            0       => self::Image,
+            1       => self::Video,
+            default => null,
+        };
+
+    }
+
+    public function cache_name(): string
+    {
+        return match ($this)
+        {
+            Category::Image => \App\Http\Controllers\ImageController::class,
+            Category::Video => \App\Http\Controllers\VideoController::class,
+        };
+    }
 }
 
